@@ -1,0 +1,4 @@
+name: CaecLegacyCombat
+version: '${version}'
+main: eu.caec.caeclegacycombat.CLC
+api-version: '1.21'
