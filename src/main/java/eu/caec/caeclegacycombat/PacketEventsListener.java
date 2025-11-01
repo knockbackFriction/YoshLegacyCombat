@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerParticle;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSoundEffect;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -31,21 +32,25 @@ public class PacketEventsListener extends PacketListenerAbstract {
                 "damage_indicator"
         ).forEach(s -> BLACKLISTED_PARTICLES.put(ResourceLocation.minecraft(s), Boolean.TRUE));
     }
-    
+
     @Override
     public void onPacketSend(PacketSendEvent event) {
-        if (event.getPacketType() == PacketType.Play.Server.SOUND_EFFECT) {
-            WrapperPlayServerSoundEffect namedSoundPacket = new WrapperPlayServerSoundEffect(event);
-            ResourceLocation soundId = namedSoundPacket.getSound().getSoundId();
-            if (BLACKLISTED_SOUNDS.containsKey(soundId)) {
-                event.setCancelled(true);
-            }
-        } else if (event.getPacketType() == PacketType.Play.Server.PARTICLE) {
-            WrapperPlayServerParticle particlePacket = new WrapperPlayServerParticle(event);
-            ResourceLocation particleId = particlePacket.getParticle().getType().getName();
-            if (BLACKLISTED_PARTICLES.containsKey(particleId)) {
-                event.setCancelled(true);
-            }
+        switch(event.getPacketType()) {
+            case PacketType.Play.Server.SOUND_EFFECT:
+                WrapperPlayServerSoundEffect soundPacket = new WrapperPlayServerSoundEffect(event);
+                ResourceLocation soundId = soundPacket.getSound().getSoundId();
+                if (BLACKLISTED_SOUNDS.containsKey(soundId)) {
+                    event.setCancelled(true);
+                }
+                break;
+            case PacketType.Play.Server.PARTICLE:
+                WrapperPlayServerParticle particlePacket = new WrapperPlayServerParticle(event);
+                ResourceLocation particleId = particlePacket.getParticle().getType().getName();
+                if (BLACKLISTED_PARTICLES.containsKey(particleId)) {
+                    event.setCancelled(true);
+                }
+                break;
+            default:
         }
     }
 }

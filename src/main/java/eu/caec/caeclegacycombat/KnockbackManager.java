@@ -13,7 +13,7 @@ public class KnockbackManager {
     float horizontalExtra = (float) config.getDouble("horizontal-extra");
     float verticalBase = (float) config.getDouble("vertical-base");
     float verticalExtra = (float) config.getDouble("vertical-extra");
-    float verticalPlayerMotionMultiplier = (float) config.getDouble("vertical-player-motion-multiplier");
+    float verticalPlayerMotionInfluence = (float) config.getDouble("vertical-player-motion-influence");
     public Vector calculateMeleeKnockback(Player victim, Player attacker) {
         float angle = (float) Math.toDegrees(Math.atan2(attacker.getLocation().getX() - victim.getLocation().getX(), attacker.getLocation().getZ() - victim.getLocation().getZ()));
         float totalVertical;
@@ -31,7 +31,7 @@ public class KnockbackManager {
                 -Math.cos(angle * 3.1415927F / 180.0F) * totalHorizontal);
 
         if (victim.getVelocity().getY() < 0) {
-            velo.add(new Vector(0, victim.getVelocity().getY() * verticalPlayerMotionMultiplier, 0));
+            velo.add(new Vector(0, victim.getVelocity().getY() * verticalPlayerMotionInfluence, 0));
         }
 
         return velo;

@@ -2,4 +2,4 @@ horizontal-base: 0.4
 horizontal-extra: 0.5
 vertical-base: 0.4
 vertical-extra: 0.1
-vertical-player-motion-multiplier: 0.25
+vertical-player-motion-influence: 0.25

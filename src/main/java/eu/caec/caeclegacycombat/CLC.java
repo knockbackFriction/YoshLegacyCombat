@@ -1,6 +1,7 @@
 package eu.caec.caeclegacycombat;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import eu.caec.caeclegacycombat.HitboxExpansion.HitboxExpander;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.Material;
@@ -42,6 +43,7 @@ public final class CLC extends JavaPlugin implements Listener {
         damageManager = new DamageManager();
 
         PacketEvents.getAPI().getEventManager().registerListener(new PacketEventsListener());
+        PacketEvents.getAPI().getEventManager().registerListener(new HitboxExpander());
         PacketEvents.getAPI().init();
     }
 
