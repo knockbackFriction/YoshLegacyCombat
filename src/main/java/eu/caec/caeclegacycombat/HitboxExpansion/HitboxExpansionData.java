@@ -20,10 +20,10 @@ public class HitboxExpansionData {
     }
 
     public void spawn(WrapperPlayServerSpawnEntity spawnEntity) {
-        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("++", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(0.05D, 0, 0.05D)));
-        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("-+", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(-0.05D, 0, 0.05D)));
-        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("+-", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(0.05D, 0, -0.05D)));
-        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("--", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(-0.05D, 0, -0.05D)));
+        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("++", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(0.1D, 0, 0.1D)));
+        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("-+", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(-0.1D, 0, 0.1D)));
+        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("+-", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(0.1D, 0, -0.1D)));
+        this.entities.put(spawnEntity.getEntityId(), new ExpandedEntity("--", SpigotReflectionUtil.generateEntityId(), UUID.randomUUID(), new Vector3d(-0.1D, 0, -0.1D)));
 
         for (ExpandedEntity expandedEntity : this.entities.get(spawnEntity.getEntityId())) {
             expandedEntity.sendSpawn(user, spawnEntity.getPosition());

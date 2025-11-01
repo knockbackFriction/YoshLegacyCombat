@@ -14,6 +14,9 @@ public class KnockbackManager {
     float verticalBase = (float) config.getDouble("vertical-base");
     float verticalExtra = (float) config.getDouble("vertical-extra");
     float verticalPlayerMotionInfluence = (float) config.getDouble("vertical-player-motion-influence");
+    float horizontalPlayerMotionInfluence = (float) config.getDouble("horizontal-player-motion-influence");
+    float verticalLimit = (float) config.getDouble("vertical-limit");
+
     public Vector calculateMeleeKnockback(Player victim, Player attacker) {
         float angle = (float) Math.toDegrees(Math.atan2(attacker.getLocation().getX() - victim.getLocation().getX(), attacker.getLocation().getZ() - victim.getLocation().getZ()));
         float totalVertical;
@@ -26,23 +29,43 @@ public class KnockbackManager {
             totalVertical = verticalBase;
         }
 
-        Vector velo = new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * totalHorizontal),
-                totalVertical,
-                -Math.cos(angle * 3.1415927F / 180.0F) * totalHorizontal);
+        Vector velo = victim.getVelocity();
+        velo.multiply(new Vector(horizontalPlayerMotionInfluence,
+                verticalPlayerMotionInfluence,
+                horizontalPlayerMotionInfluence)
+        );
 
-        if (victim.getVelocity().getY() < 0) {
-            velo.add(new Vector(0, victim.getVelocity().getY() * verticalPlayerMotionInfluence, 0));
+        velo.add( new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * totalHorizontal),
+                totalVertical,
+                -Math.cos(angle * 3.1415927F / 180.0F) * totalHorizontal)
+        );
+
+        if (velo.getY() > verticalLimit) {
+            velo.setY(verticalLimit);
         }
 
         return velo;
     }
 
     //for things like projectiles
-    public Vector calculateSimpleKnockback(Location victim, Location source) {
+    public Vector calculateSimpleKnockback(Player victim, Location source) {
         float angle = (float) Math.toDegrees(Math.atan2(source.getX() - victim.getX(), source.getZ() - victim.getZ()));
-        Vector velo = new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * horizontalBase),
+
+        Vector velo = victim.getVelocity();
+        velo.multiply(new Vector(horizontalPlayerMotionInfluence,
+                verticalPlayerMotionInfluence,
+                horizontalPlayerMotionInfluence)
+        );
+
+        velo.add( new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * horizontalBase),
                 verticalBase,
-                -Math.cos(angle * 3.1415927F / 180.0F) * horizontalBase);
+                -Math.cos(angle * 3.1415927F / 180.0F) * horizontalBase)
+        );
+
+        if (velo.getY() > verticalLimit) {
+            velo.setY(verticalLimit);
+        }
+
         return velo;
     }
 }

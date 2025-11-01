@@ -122,7 +122,7 @@ public final class CLC extends JavaPlugin implements Listener {
         if (event.getEntity() instanceof FishHook || event.getEntity() instanceof Snowball || event.getEntity() instanceof Egg) {
             if (!(event.getEntity().getShooter() instanceof Player shooter)) return;
             if (victim.getNoDamageTicks() > victim.getMaximumNoDamageTicks() / 2f) return;
-            victim.setVelocity(knockbackManager.calculateSimpleKnockback(victim.getLocation(), shooter.getLocation()));
+            victim.setVelocity(knockbackManager.calculateSimpleKnockback(victim, shooter.getLocation()));
             victim.damage(0.001d);
         }
     }
