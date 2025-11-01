@@ -96,7 +96,6 @@ public final class CLC extends JavaPlugin implements Listener {
             if (item.getData(DataComponentTypes.CONSUMABLE) == null) {
                 item = swordBlocking.makeSwordBlockable(item);
                 event.getPlayer().getInventory().setItemInMainHand(item);
-                event.getPlayer().sendMessage("You should be able to block with your sword now.");
             }
         }
     }

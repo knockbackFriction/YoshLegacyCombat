@@ -2,6 +2,6 @@ horizontal-base: 0.4
 horizontal-extra: 0.5
 vertical-base: 0.4
 vertical-extra: 0.1
-vertical-player-motion-influence: 0.5
-horizontal-player-motion-influence: 0.5
+vertical-friction: 2.0
+horizontal-friction: 2.0
 vertical-limit: 0.4

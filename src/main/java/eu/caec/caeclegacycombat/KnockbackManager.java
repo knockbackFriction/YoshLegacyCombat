@@ -13,8 +13,8 @@ public class KnockbackManager {
     float horizontalExtra = (float) config.getDouble("horizontal-extra");
     float verticalBase = (float) config.getDouble("vertical-base");
     float verticalExtra = (float) config.getDouble("vertical-extra");
-    float verticalPlayerMotionInfluence = (float) config.getDouble("vertical-player-motion-influence");
-    float horizontalPlayerMotionInfluence = (float) config.getDouble("horizontal-player-motion-influence");
+    float verticalFriction = (float) config.getDouble("vertical-friction");
+    float horizontalFriction = (float) config.getDouble("horizontal-friction");
     float verticalLimit = (float) config.getDouble("vertical-limit");
 
     public Vector calculateMeleeKnockback(Player victim, Player attacker) {
@@ -29,16 +29,13 @@ public class KnockbackManager {
             totalVertical = verticalBase;
         }
 
-        Vector velo = victim.getVelocity();
-        velo.multiply(new Vector(horizontalPlayerMotionInfluence,
-                verticalPlayerMotionInfluence,
-                horizontalPlayerMotionInfluence)
-        );
+        double finalX = Math.sin(angle * 3.1415927F / 180.0F) * totalHorizontal;
+        double finalZ = Math.cos(angle * 3.1415927F / 180.0F) * totalHorizontal;
 
-        velo.add( new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * totalHorizontal),
-                totalVertical,
-                -Math.cos(angle * 3.1415927F / 180.0F) * totalHorizontal)
-        );
+        Vector velo = victim.getVelocity();
+        velo.setX((velo.getX() / horizontalFriction) - finalX);
+        velo.setY((velo.getY() / verticalFriction) + totalVertical);
+        velo.setZ((velo.getZ() / horizontalFriction) - finalZ);
 
         if (velo.getY() > verticalLimit) {
             velo.setY(verticalLimit);
@@ -51,16 +48,13 @@ public class KnockbackManager {
     public Vector calculateSimpleKnockback(Player victim, Location source) {
         float angle = (float) Math.toDegrees(Math.atan2(source.getX() - victim.getX(), source.getZ() - victim.getZ()));
 
-        Vector velo = victim.getVelocity();
-        velo.multiply(new Vector(horizontalPlayerMotionInfluence,
-                verticalPlayerMotionInfluence,
-                horizontalPlayerMotionInfluence)
-        );
+        double finalX = Math.sin(angle * 3.1415927F / 180.0F) * horizontalBase;
+        double finalZ = Math.cos(angle * 3.1415927F / 180.0F) * horizontalBase;
 
-        velo.add( new Vector(-(Math.sin(angle * 3.1415927F / 180.0F) * horizontalBase),
-                verticalBase,
-                -Math.cos(angle * 3.1415927F / 180.0F) * horizontalBase)
-        );
+        Vector velo = victim.getVelocity();
+        velo.setX((velo.getX() / horizontalFriction) - finalX);
+        velo.setY((velo.getY() / verticalFriction) + verticalBase);
+        velo.setZ((velo.getZ() / horizontalFriction) - finalZ);
 
         if (velo.getY() > verticalLimit) {
             velo.setY(verticalLimit);
